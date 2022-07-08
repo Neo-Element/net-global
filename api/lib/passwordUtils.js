@@ -11,7 +11,7 @@ const genHash = async (password) => {
 };
 
 const verifyPassword = async (password, userHash) => {
-  return await compare(password, userHash)
+  return await compare(password, userHash);
 };
 
 module.exports = { genHash, verifyPassword };

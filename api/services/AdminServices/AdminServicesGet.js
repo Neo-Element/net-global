@@ -138,24 +138,12 @@ class AdminServicesGet {
 
   static async serviceGetOneOffice(req, next) {
     try {
-<<<<<<< HEAD
       const oneOffice = await BranchOficce.findByPk(req.params.id);
       const officeName = await Client.findByPk(oneOffice.clientId);
-=======
-      const oneOffice = await BranchOficce.findOne({
-        where:{
-          id:req.params.id}
-      });
-      console.log(oneOffice.clientId)
-      const officeName = await Client.findOne({
-        where:{
-          id:oneOffice.clientId}});
-          console.log(officeName)
->>>>>>> c4d9875d1ef794f526cf50fdf365d67e36956b2a
       oneOffice.dataValues.clientName = officeName.bussinessName;
       return oneOffice;
     } catch (err) {
-      console.log(err)
+      console.log(err);
       next(err);
     }
   }
@@ -292,7 +280,7 @@ class AdminServicesGet {
       securities = securities.map((securitie) => {
         const dist = distance(y, x, securitie.y, securitie.x);
         securitie.dist = dist;
-        console.log("aca", y, x)
+        console.log("aca", y, x);
         return securitie;
       });
 

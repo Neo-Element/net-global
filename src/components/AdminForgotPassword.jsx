@@ -14,8 +14,8 @@ const AdminForgotPassword = () => {
   } = useForm();
 
   const onSubmit = () => {
-    console.log("acá se ejecutó onSubmit")
-  }
+    console.log("acá se ejecutó onSubmit");
+  };
 
   return (
     <div id="fondologin">

@@ -50,8 +50,8 @@ Securities.init(
       type: S.FLOAT,
     },
     recoveryToken: {
-      type: S.STRING
-    }
+      type: S.STRING,
+    },
   },
   {
     sequelize: db,
@@ -60,7 +60,6 @@ Securities.init(
 );
 
 Securities.sync({ alter: false });
-
 
 Securities.beforeCreate(async (securities) => {
   salt = await genSalt(16);

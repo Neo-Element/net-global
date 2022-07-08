@@ -1,7 +1,6 @@
 const AdminServicesPatch = require("../../services/AdminServices/AdminSevicesPatch");
 
 class AdminControllerPatch {
-
   static async patchPassword(req, res, next) {
     const patchPassword = await AdminServicesPatch.patchPassword(req, next);
     return patchPassword

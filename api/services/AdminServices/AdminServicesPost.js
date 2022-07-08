@@ -105,13 +105,21 @@ class AdminServicesPost {
         [0]   start: '2022-04-13T20:25:00',
         [0]   end: '2022-04-13T20:25:00',
         [0]   securityId: 1
-        [0] } *//* date: event.date,
+        [0] } */ /* date: event.date,
       start: event.start,
       end: event.end,
       branchName: event.branchName,
       securityName: event.completeName, */
-        const {wishEntryHour,wishClosingHour,completeName,branchName,date, start,end }= req.body
-      console.log("ESTO ES REQ BODY", req.body)
+      const {
+        wishEntryHour,
+        wishClosingHour,
+        completeName,
+        branchName,
+        date,
+        start,
+        end,
+      } = req.body;
+      console.log("ESTO ES REQ BODY", req.body);
       const branchOficces = await BranchOficce.findOne({
         where: { name: req.body.branchName },
       });
@@ -120,8 +128,18 @@ class AdminServicesPost {
           CUIL: req.body.CUIL,
         },
       });
-      const workDay = await WorkDay.create({ date: date,wishClosingHour: wishClosingHour,wishEntryHour: wishEntryHour});
-      const event = await Events.create({ date: date,start: start,end: end,branchName: branchName,securityName:completeName,});
+      const workDay = await WorkDay.create({
+        date: date,
+        wishClosingHour: wishClosingHour,
+        wishEntryHour: wishEntryHour,
+      });
+      const event = await Events.create({
+        date: date,
+        start: start,
+        end: end,
+        branchName: branchName,
+        securityName: completeName,
+      });
       event.setWorkDay(workDay);
       branchOficces.addWorkDays(workDay);
       security.addWorkDays(workDay);
@@ -255,9 +273,8 @@ class AdminServicesPost {
 
   static async serviceDisabledClient(req, next) {
     try {
-
-      console.log("req.params => ", req.params)
-      console.log("req.body => ", req.body)
+      console.log("req.params => ", req.params);
+      console.log("req.body => ", req.body);
       const client = await Client.findOne({
         where: { id: req.params.id },
       });
@@ -273,7 +290,6 @@ class AdminServicesPost {
       disabled.setClient(client);
       client.status = false;
       client.save();
-
     } catch (err) {
       console.log(err);
       next(err);
@@ -303,11 +319,11 @@ class AdminServicesPost {
 
   static async serviceRehabitedClinets(req, next) {
     try {
-      console.log("HOLA", req.params)
+      console.log("HOLA", req.params);
       const client = await Client.findOne({
         where: { id: req.params.id },
       });
-      console.log("CLIENT", client)
+      console.log("CLIENT", client);
       const [row, disabled] = await Disabled.update(
         { clientId: null },
         {
@@ -316,13 +332,13 @@ class AdminServicesPost {
           },
         }
       );
-     
-     console.log("DISABLED", disabled)
+
+      console.log("DISABLED", disabled);
       client.status = true;
       client.save();
       return client;
     } catch (err) {
-      console.log(err)
+      console.log(err);
       next(err);
     }
   }
@@ -375,7 +391,7 @@ class AdminServicesPost {
   static async serviceAddEvent(req, next) {
     try {
       const event = await Events.create(req.body);
-      console.log("ESTO ES EVENT", event.dataValues)
+      console.log("ESTO ES EVENT", event.dataValues);
       const workDay = await WorkDay.findOne({
         where: {
           date: event.dataValues.date,

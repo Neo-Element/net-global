@@ -13,13 +13,12 @@ Disabled.init(
     },
     reason: {
       type: S.TEXT,
-    }
+    },
   },
   {
     sequelize: db,
-    modelName:"disabled",
+    modelName: "disabled",
   }
 );
-
 
 module.exports = Disabled;

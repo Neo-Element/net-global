@@ -4,22 +4,21 @@ const {
   BranchOficce,
   Client,
   Provincies,
-  AbsenceRequest
+  AbsenceRequest,
 } = require("../models");
-const{genHash} = require("../lib/passwordUtils");
+const { genHash } = require("../lib/passwordUtils");
 const { Op } = require("sequelize");
-
 
 class SecuritiesServices {
   static async serviceMyWorkDay(req, next) {
-    console.log("service" , req.params)
+    console.log("service", req.params);
     try {
       const today = await WorkDay.findOne({
         where: {
           date: req.params.date,
         },
       });
-      console.log("----------->>>",today)
+      console.log("----------->>>", today);
       const schedule = await Securities.findOne({
         where: { id: req.params.id },
         include: {
@@ -29,7 +28,7 @@ class SecuritiesServices {
           },
         },
       });
-      console.log("para que se identifique",schedule)
+      console.log("para que se identifique", schedule);
       const oficina = await BranchOficce.findOne({
         include: {
           association: BranchOficce.security,
@@ -63,12 +62,14 @@ class SecuritiesServices {
         },
       });
 
-      return oficinaSchedule && schedule && cliente && provincia?{
-        office: oficinaSchedule,
-        calendario: schedule,
-        cliente: cliente,
-        provincia: provincia,
-      }:null;
+      return oficinaSchedule && schedule && cliente && provincia
+        ? {
+            office: oficinaSchedule,
+            calendario: schedule,
+            cliente: cliente,
+            provincia: provincia,
+          }
+        : null;
     } catch (err) {
       console.log(err);
       next(err);
@@ -85,40 +86,52 @@ class SecuritiesServices {
           association: Securities.calendar,
         },
       });
-     const todaySecurity= allWorkDays.workDays.filter((workaday)=> workaday.date === justDate)
+      const todaySecurity = allWorkDays.workDays.filter(
+        (workaday) => workaday.date === justDate
+      );
       const [rows, workDay] = await WorkDay.update(
-        { entryHour: req.params.date, inLocation: req.params.geo, serverHourEntry: new Date() },
         {
-          where: { id: todaySecurity[0].dataValues.id},
+          entryHour: req.params.date,
+          inLocation: req.params.geo,
+          serverHourEntry: new Date(),
+        },
+        {
+          where: { id: todaySecurity[0].dataValues.id },
           returning: true,
         }
       );
-      console.log("fecha<--->>>>>>>>>>>>",req.params.date)
+      console.log("fecha<--->>>>>>>>>>>>", req.params.date);
       return workDay;
     } catch (err) {
       next(err);
     }
   }
-  
+
   static async serviceToWriteMyWorkDayClose(req, next) {
     try {
       const date = req.params.date;
-      
+
       const justDate = date.split(" ")[0];
-     
+
       const allWorkDays = await Securities.findOne({
         where: { id: req.params.id },
         include: {
           association: Securities.calendar,
-        }, 
-      }); 
+        },
+      });
 
-     const todaySecurity= allWorkDays.workDays.filter((workaday)=> workaday.date === justDate)
-     
+      const todaySecurity = allWorkDays.workDays.filter(
+        (workaday) => workaday.date === justDate
+      );
+
       const [rows, workDay] = await WorkDay.update(
-        { closingHour: req.params.date, outLocation: req.params.geo, serverHourClosing: new Date() },
         {
-          where: { id: todaySecurity[0].dataValues.id},
+          closingHour: req.params.date,
+          outLocation: req.params.geo,
+          serverHourClosing: new Date(),
+        },
+        {
+          where: { id: todaySecurity[0].dataValues.id },
           returning: true,
         }
       );
@@ -127,8 +140,6 @@ class SecuritiesServices {
       next(err);
     }
   }
-
- 
 
   static async serviceCancellWorkDay(req, next) {
     try {
@@ -148,11 +159,14 @@ class SecuritiesServices {
 
   static async serviceChangeMyPassword(req, next) {
     try {
-     const newPassword= await genHash(req.body.password)
-     console.log(newPassword)
-      await Securities.update({password: newPassword.hash}, {
-        where: { id: req.params.id },
-      });
+      const newPassword = await genHash(req.body.password);
+      console.log(newPassword);
+      await Securities.update(
+        { password: newPassword.hash },
+        {
+          where: { id: req.params.id },
+        }
+      );
     } catch (err) {
       next(err);
     }
@@ -174,122 +188,135 @@ class SecuritiesServices {
     }
   }
 
-  static async serviceAbsenceRequest(req , next){
+  static async serviceAbsenceRequest(req, next) {
     try {
       const security = await Securities.findOne({
-        where:{
-          id: req.params.id
-        }
+        where: {
+          id: req.params.id,
+        },
       });
-      const request = await AbsenceRequest.create(req.body)
-      request.setSecurity(security)
-      return request
+      const request = await AbsenceRequest.create(req.body);
+      request.setSecurity(security);
+      return request;
     } catch (err) {
-      next (err)
+      next(err);
     }
   }
 
-  static async serviceAbsenceRequests(req , next){
+  static async serviceAbsenceRequests(req, next) {
     try {
       const requests = await AbsenceRequest.findAll({
-        where:{
-          securityId: req.params.id
+        where: {
+          securityId: req.params.id,
         },
-        order: [
-          ["id" , "DESC"]
-        ]
-      })
-      return requests
-    } catch (err){
-      next (err)
+        order: [["id", "DESC"]],
+      });
+      return requests;
+    } catch (err) {
+      next(err);
     }
   }
 
-  static async requestHourSecurity(req , next){
+  static async requestHourSecurity(req, next) {
     try {
       const security = await Securities.findOne({
-        where : {
-          id: req.params.id
+        where: {
+          id: req.params.id,
         },
-        include : {
+        include: {
           association: Securities.calendar,
           where: {
-            date : {
-            [Op.between] : [req.params.initDate , req.params.endDate]
-          }}
-        }
-      })
-      let sumaHoras = []
-      security.workDays.map(workday=>{
-        sumaHoras.push({fecha:workday.date , horas:(new Date(workday.closingHour)-new Date(workday.entryHour))/1000/60/60})
-      })
-     
-      return sumaHoras
-    } catch (err){
-      console.log(err)
-      next(err)
+            date: {
+              [Op.between]: [req.params.initDate, req.params.endDate],
+            },
+          },
+        },
+      });
+      let sumaHoras = [];
+      security.workDays.map((workday) => {
+        sumaHoras.push({
+          fecha: workday.date,
+          horas:
+            (new Date(workday.closingHour) - new Date(workday.entryHour)) /
+            1000 /
+            60 /
+            60,
+        });
+      });
+
+      return sumaHoras;
+    } catch (err) {
+      console.log(err);
+      next(err);
     }
   }
-  static async getOfficeAndClient(req, next){
-    try{
-      const branch= await BranchOficce.findAll({
-        
-        include:[{
+  
+  static async getOfficeAndClient(req, next) {
+    try {
+      const branch = await BranchOficce.findAll({
+        include: [
+          {
+            model: WorkDay,
+            where: {
+              date: {
+                [Op.between]: [req.params.initDate, req.params.endDate],
+              },
+            },
+          },
+          {
+            model: Securities,
+            where: {
+              id: req.params.id,
+            },
+          },
+        ],
+      });
+
+      let days = [];
+      branch[0].workDays.map((workDay) => days.push(workDay.id));
+      const securities = await Securities.findAll({
+        where: { id: branch[0].dataValues.securities[0].id },
+        include: {
           model: WorkDay,
-          where:{
-            date: { 
-              [Op.between] : [req.params.initDate , req.params.endDate] }}
-        },{
-          model: Securities,
-          where:{
-            id: req.params.id
-          }
-        }]
-      })
-      
-      let days=[]
-      branch[0].workDays.map((workDay)=> days.push(workDay.id) )
-      const securities= await Securities.findAll({
-        where:{id: branch[0].dataValues.securities[0].id},
-        include:{
-          model: WorkDay,
-          where:{
-            id: days}
-        }
-      })
-      
-     console.log(securities)
-     return {oficina: branch, horario: securities}
-    }catch(err){
-      next(err)}
+          where: {
+            id: days,
+          },
+        },
+      });
+
+      console.log(securities);
+      return { oficina: branch, horario: securities };
+    } catch (err) {
+      next(err);
+    }
   }
 
-  static async servicesGetNextWorkDays(req, next){
-    try{
-      let date= new Date()
-      let day= date.getDate()+5
-      let year=date.getFullYear()
-      let month= date.getMonth()
-      let nextDate= new Date(year, month, day)
+  static async servicesGetNextWorkDays(req, next) {
+    try {
+      let date = new Date();
+      let day = date.getDate() + 5;
+      let year = date.getFullYear();
+      let month = date.getMonth();
+      let nextDate = new Date(year, month, day);
 
-      const searchNextDays= await  Securities.findOne({
-        where : {
-          id: req.params.id
+      const searchNextDays = await Securities.findOne({
+        where: {
+          id: req.params.id,
         },
-        include : {
+        include: {
           association: Securities.calendar,
           where: {
-            date : {
-            [Op.between] : [date , nextDate]
-          }}
-        }
-      })
-      return searchNextDays
-    }catch(err){
-    next(err)
+            date: {
+              [Op.between]: [date, nextDate],
+            },
+          },
+        },
+      });
+      return searchNextDays;
+    } catch (err) {
+      next(err);
     }
   }
 }
-
 
 module.exports = SecuritiesServices;

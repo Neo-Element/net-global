@@ -22,10 +22,10 @@ function userAuthMiddleware(req, res, next) {
           algorithms: ["RS256"],
         },
         (error, payload) => {
-          if (!payload.admin) return true
+          if (!payload.admin) return true;
         }
       );
-      if(verification) return next()
+      if (verification) return next();
       return res.status(401).json(failAuthMessage);
     } catch (err) {
       return res.status(401).json(failAuthMessage);
