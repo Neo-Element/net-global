@@ -13,11 +13,11 @@ import PopUpDisable from "./PopUpDisable";
 const CardClient = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const id = useParams();
+  const { clientId } = useParams();
   const client = useSelector((state) => state.client);
 
   useEffect(() => {
-    dispatch(getClientId(id.id));
+    dispatch(getClientId(clientId));
   }, []);
 
   const handleDelete = () => {

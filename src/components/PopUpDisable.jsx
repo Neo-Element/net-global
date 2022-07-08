@@ -17,24 +17,20 @@ const PopUp = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const id = useParams();
+  const { clientId } = useParams();
 
-  const clientId = id.id;
-  const onSubmit = (data) => {
-    swal({
-      title: "Estas seguro que quieres deshabilitar al cliente?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    }).then((deshabilitar) => {
-      if (deshabilitar) {
-        data.id = clientId;
-        dispatch(disableClient(data));
-
-        navigate("/clients");
-      }
-    });
-    console.log("esto es data", data);
+  const onSubmit = async (data) => {
+    try {
+      data.id = clientId;
+      const disabledClient = await dispatch(disableClient(data));
+      swal({
+        title: "Cliente deshabilitado",
+        icon: "warning",
+      })
+      navigate("/clients");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -62,7 +58,7 @@ const PopUp = () => {
           <Modal.Title>Motivo</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleSubmit(onSubmit)}>
+          <Form onSubmit={handleSubmit}>
             <div className="col-md-12">
               <Form.Label className="labels">
                 Escribe la razón por la cual quiere deshabilitar al cliente
@@ -86,7 +82,7 @@ const PopUp = () => {
           <Button variant="secondary" onClick={handleClose}>
             Cerrar
           </Button>
-          <Button onClick={handleSubmit(onSubmit)} variant="danger">
+          <Button onClick={onSubmit} variant="danger">
             Deshabilitar
           </Button>
         </Modal.Footer>

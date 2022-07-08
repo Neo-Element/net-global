@@ -62,6 +62,7 @@ function App() {
 
     dispatch(effectDevice()).catch((err) => console.log(err));
   }, []);
+  
   const device = useSelector((state) => state.device);
   const admin = useSelector((state) => state.usuario);
 
@@ -87,7 +88,7 @@ function App() {
           <Route path="/admin/login" element={<Login />} />
           <Route path="/client" element={<ClientFormNuevo />} />
           <Route path="/clients" element={<Clients />} />
-          <Route path="/clients/:id" element={<CardClient />} />
+          <Route path="/clients/:clientId" element={<CardClient />} />
           <Route path="/edit/client/:id" element={<EditClient />} />
           <Route path="/security" element={<SecurityFormNuevo />} />
           <Route path="/status" element={<UserPage />} />

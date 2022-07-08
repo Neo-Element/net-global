@@ -19,6 +19,7 @@ const ClientFormNuevo = () => {
   const onSubmit = async (data) => {
     try {
       const createdClient = await dispatch(postClient(data));
+      console.log("esto es data", data)
       navigate(`/clients/${createdClient.payload.id}`);
     } catch (err) {
       console.log(err);

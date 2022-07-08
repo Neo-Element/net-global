@@ -68,6 +68,7 @@ class AdminServicesPost {
       const client = await Client.create(req.body);
       return client;
     } catch (err) {
+      console.log("ESTE ES EL ERROR", err)
       next(err);
     }
   }
