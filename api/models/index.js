@@ -9,11 +9,19 @@ const AbsenceRequest = require("./AbsenceRequest");
 const Events = require("./Events");
 
 Disabled.belongsTo(Securities);
+Securities.hasOne(Disabled)
 Disabled.belongsTo(Client);
+Client.hasOne(Disabled)
 Disabled.belongsTo(BranchOficce);
+BranchOficce.hasOne(Disabled)
 Disabled.belongsTo(Admin);
+Admin.hasOne(Disabled)
+
 AbsenceRequest.belongsTo(Securities);
-Client.offices = BranchOficce.belongsTo(Client);
+Securities.hasMany(AbsenceRequest)
+
+BranchOficce.belongsTo(Client);
+Client.hasMany
 BranchOficce.belongsTo(Provincies);
 Events.belongsTo(WorkDay);
 

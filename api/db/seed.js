@@ -8,7 +8,7 @@ const clientsList = require("../utils/lists/clientsList");
 const setupSeed = async () => {
   console.log("SEED STARTING");
   const admins = await Admin.bulkCreate(superAdmin);
-  // const securities = await Securities.bulkCreate(securitiesList);
+   const securities = await Securities.bulkCreate(securitiesList);
   const clients = await Client.bulkCreate(clientsList);
   const provincies = await Provincies.bulkCreate(provinces);
   console.log("SEED SUCCESFULLY");

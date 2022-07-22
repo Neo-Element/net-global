@@ -2,7 +2,7 @@ const S = require("sequelize");
 const db = require("../db");
 
 class Disabled extends S.Model {}
-
+// modelo de deshabilitacion
 Disabled.init(
   {
     type: {
