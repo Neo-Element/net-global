@@ -4,7 +4,7 @@ const authRoute = require("./auth");
 const securityRouter = require("./securityRoutes");
 
 router.use("/admin", adminRouter);
-router.use("/security", securityRouter);
+router.use("/user", securityRouter);
 router.use("/auth", authRoute);
 
 module.exports = router;

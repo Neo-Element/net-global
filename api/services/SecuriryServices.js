@@ -10,6 +10,7 @@ const { genHash } = require("../lib/passwordUtils");
 const { Op } = require("sequelize");
 
 class SecuritiesServices {
+  //xxxxxxxxxxxxxxxxxxx
   static async serviceMyWorkDay(req, next) {
     console.log("service", req.params);
     try {
@@ -77,6 +78,7 @@ class SecuritiesServices {
   }
 
   static async serviceToWriteMyWorkDayEntry(req, next) {
+    //xxxxxxxxxxxxxxxxxxxx
     try {
       const date = req.params.date;
       const justDate = date.split(" ")[0]; //fecha
@@ -108,6 +110,7 @@ class SecuritiesServices {
   }
 
   static async serviceToWriteMyWorkDayClose(req, next) {
+    //xxxxxxxxxxxxxxxx
     try {
       const date = req.params.date;
 
@@ -189,6 +192,7 @@ class SecuritiesServices {
   }
 
   static async serviceAbsenceRequest(req, next) {
+    //xxxxxxxxxxxxxxxxxxxx
     try {
       const security = await Securities.findOne({
         where: {
@@ -204,6 +208,7 @@ class SecuritiesServices {
   }
 
   static async serviceAbsenceRequests(req, next) {
+    
     try {
       const requests = await AbsenceRequest.findAll({
         where: {
@@ -218,6 +223,7 @@ class SecuritiesServices {
   }
 
   static async requestHourSecurity(req, next) {
+    //xxxxxxxxxxxxxxxxxxxxxxx
     try {
       const security = await Securities.findOne({
         where: {
@@ -252,6 +258,7 @@ class SecuritiesServices {
   }
   
   static async getOfficeAndClient(req, next) {
+    //xxxxxxxxxxxxxxxxxxxxx
     try {
       const branch = await BranchOficce.findAll({
         include: [
@@ -292,6 +299,7 @@ class SecuritiesServices {
   }
 
   static async servicesGetNextWorkDays(req, next) {
+    //xxxxxxxxxxxxx
     try {
       let date = new Date();
       let day = date.getDate() + 5;

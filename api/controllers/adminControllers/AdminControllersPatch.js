@@ -1,4 +1,4 @@
-const AdminServicesPatch = require("../../services/AdminServices/AdminSevicesPatch");
+/* const AdminServicesPatch = require("../../services/AdminServices/AdminSevicesPatch");
 
 class AdminControllerPatch {
   static async patchPassword(req, res, next) {
@@ -9,3 +9,4 @@ class AdminControllerPatch {
   }
 }
 module.exports = AdminControllerPatch;
+ */

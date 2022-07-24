@@ -21,18 +21,39 @@ AbsenceRequest.belongsTo(Securities);
 Securities.hasMany(AbsenceRequest)
 
 BranchOficce.belongsTo(Client);
-Client.hasMany
-BranchOficce.belongsTo(Provincies);
-Events.belongsTo(WorkDay);
+Client.hasMany(BranchOficce)
 
-Securities.provincie = Securities.belongsToMany(Provincies, {
+BranchOficce.belongsTo(Provincies);
+Provincies.hasMany(BranchOficce)
+
+Events.belongsTo(WorkDay);
+WorkDay.hasMany(Events)
+
+Securities.belongsToMany(Provincies, {
   through: "provincies_security ",
 });
-BranchOficce.calendar = BranchOficce.belongsToMany(WorkDay, {
+
+Provincies.belongsToMany(Securities, {
+  through: "provincies_security ",
+});
+
+
+ BranchOficce.belongsToMany(WorkDay, {
   through: "calendar_office",
 });
-Securities.calendar = Securities.belongsToMany(WorkDay, { through: "ownTime" });
-BranchOficce.security = BranchOficce.belongsToMany(Securities, {
+WorkDay.belongsToMany(BranchOficce, {
+  through: "calendar_office",
+});
+
+ Securities.belongsToMany(WorkDay, { through: "ownTime" });
+ WorkDay.belongsToMany(Securities, { through: "ownTime" });
+
+ 
+ BranchOficce.belongsToMany(Securities, {
+  through: "yourSecurity",
+});
+
+Securities.belongsToMany(BranchOficce, {
   through: "yourSecurity",
 });
 

@@ -1,4 +1,4 @@
-const adminRouter = require("express").Router();
+/* const adminRouter = require("express").Router();
 const AdminControllerGet = require("../controllers/adminControllers/AdminControllersGet");
 const AdminControllerPost = require("../controllers/adminControllers/AdminControllersPost");
 const AdminControllerDelete = require("../controllers/adminControllers/AdminControllersDelete");
@@ -68,4 +68,4 @@ adminRouter.put("edit/event/:id", AdminControllerPut.editEvent);
 
 adminRouter.patch("/changePassword/:id", AdminControllerPatch.patchPassword);
 
-module.exports = adminRouter;
+module.exports = adminRouter; */

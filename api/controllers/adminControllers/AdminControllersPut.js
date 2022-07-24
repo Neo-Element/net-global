@@ -1,4 +1,4 @@
-const AdminServicesPut = require("../../services/AdminServices/AdminServicesPut");
+/* const AdminServicesPut = require("../../services/AdminServices/AdminServicesPut");
 
 class AdminControllerPut {
   static async editOffice(req, res, next) {
@@ -49,3 +49,4 @@ class AdminControllerPut {
 }
 
 module.exports = AdminControllerPut;
+ */

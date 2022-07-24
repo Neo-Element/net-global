@@ -1,4 +1,4 @@
-const {
+/* const {
   Client,
   Securities,
   BranchOficce,
@@ -92,6 +92,7 @@ class AdminServicesPut {
   }
 
   static async serviceResponseRequest(req, next) {
+    //xxxxxxxxxxxxxxxxxxxxxxxx
     try {
       const request = await AbsenceRequest.findOne({
         where: { id: req.params.id },
@@ -153,3 +154,4 @@ class AdminServicesPut {
 }
 
 module.exports = AdminServicesPut;
+ */

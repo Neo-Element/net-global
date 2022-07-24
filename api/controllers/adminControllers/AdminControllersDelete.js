@@ -1,4 +1,4 @@
-const AdminServicesDelite = require("../../services/AdminServices/AdminServicesDelete");
+/* const AdminServicesDelite = require("../../services/AdminServices/AdminServicesDelete");
 
 class AdminControllerDelite {
   static async removeSecurity(req, res, next) {
@@ -27,3 +27,4 @@ class AdminControllerDelite {
   }
 }
 module.exports = AdminControllerDelite;
+ */

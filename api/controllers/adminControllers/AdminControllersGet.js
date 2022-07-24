@@ -1,4 +1,4 @@
-const AdminServicesGet = require("../../services/AdminServices/AdminServicesGet");
+/* const AdminServicesGet = require("../../services/AdminServices/AdminServicesGet");
 const { distance } = require("../../lib/findDistance");
 
 class AdminControllerGet {
@@ -228,3 +228,4 @@ class AdminControllerGet {
 }
 
 module.exports = AdminControllerGet;
+ */

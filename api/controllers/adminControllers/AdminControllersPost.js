@@ -1,4 +1,4 @@
-const AdminServicesPost = require("../../services/AdminServices/AdminServicesPost");
+/* const AdminServicesPost = require("../../services/AdminServices/AdminServicesPost");
 
 class AdminControllerPost {
   static async addSecurity(req, res, next) {
@@ -96,3 +96,4 @@ class AdminControllerPost {
   }
 }
 module.exports = AdminControllerPost;
+ */

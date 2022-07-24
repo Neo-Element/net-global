@@ -1,4 +1,4 @@
-const {
+/* const {
   Client,
   Securities,
   BranchOficce,
@@ -9,7 +9,7 @@ const {
   Disabled,
 } = require("../../models");
 /* const { Op } = require("@sequelize/core"); */
-const { Op } = require("sequelize");
+/* const { Op } = require("sequelize");
 const { distance } = require("../../lib/findDistance.js");
 
 class AdminServicesGet {
@@ -119,6 +119,7 @@ class AdminServicesGet {
   }
 
   static async serviceGetAllOfficiesByClientName(req, next) {
+    //xxxxxxx
     try {
       console.log(req.params);
       const clients = await Client.findOne({
@@ -137,6 +138,7 @@ class AdminServicesGet {
   }
 
   static async serviceGetOneOffice(req, next) {
+    //xxxxxxxxx
     try {
       const oneOffice = await BranchOficce.findByPk(req.params.id);
       const officeName = await Client.findByPk(oneOffice.clientId);
@@ -160,6 +162,7 @@ class AdminServicesGet {
   }
 
   static async serviceGetAllSecuritiesByOffice(req, next) {
+    //xxxxxxxxxxxx
     try {
       const securityList = await BranchOficce.findAll({
         where: { name: req.params.name },
@@ -178,6 +181,7 @@ class AdminServicesGet {
   }
 
   static async serviceGetCalenderOffice(req, next) {
+    //xxxxxxxxxxx
     try {
       const calendar = await BranchOficce.findOne({
         where: { id: req.params.id },
@@ -194,7 +198,7 @@ class AdminServicesGet {
           association: BranchOficce.security,
         },
       });
-      console.log(securities);
+    
       const arrayId = securities[0].securities.map(
         (security) => security.dataValues.id
       );
@@ -223,6 +227,7 @@ class AdminServicesGet {
   }
 
   static async serviceGetAllSecuritiesByProvincie(req, next) {
+    ///xxxxxxxxxx
     try {
       const provincieBranch = await BranchOficce.findAll({
         where: {
@@ -247,6 +252,7 @@ class AdminServicesGet {
   }
 
   static async serviceGetCalenderSecurity(req, next) {
+    ///xxxxxxxx
     try {
       const scheduleSecurity = await Securities.findOne({
         where: { id: req.params.id },
@@ -261,6 +267,7 @@ class AdminServicesGet {
   }
 
   static async serviceGetSecuritiesByDistance(req, next) {
+    //xxxxxx
     const { y, x } = req.body;
     const { id } = req.params;
 
@@ -300,6 +307,7 @@ class AdminServicesGet {
   }
 
   static async getImageSecurity(req, next) {
+    //xxxxxx
     try {
       const image = WorkDay.findAll({
         where: {
@@ -390,6 +398,7 @@ class AdminServicesGet {
   // }
 
   static async servicesGetOneRequest(req, res, next) {
+    //xxxxxxx
     try {
       const oneRequest = await AbsenceRequest.findOne({
         where: { id: req.params.id },
@@ -413,6 +422,7 @@ class AdminServicesGet {
   }
 
   static async serviceGetBranchOfficewitoutSecurityDay(req, next) {
+    //xxxxxx
     try {
       let date = new Date();
       let day = date.getDate() + 7;
@@ -454,6 +464,7 @@ class AdminServicesGet {
   }
 
   static async serviceBranchOfficeWithoutWorkDay(req, next) {
+    /// xxxxx
     try {
       const branches = await BranchOficce.findAll({
         include: {
@@ -471,6 +482,7 @@ class AdminServicesGet {
   }
 
   static async serviceBranchOfficeWithoutSecurities(req, next) {
+    /// xxxxxxx
     try {
       const branches = await BranchOficce.findAll({
         include: {
@@ -500,4 +512,5 @@ class AdminServicesGet {
     }
   }
 }
-module.exports = AdminServicesGet;
+module.exports = AdminServicesGet; */
+ 

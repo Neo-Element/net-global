@@ -1,4 +1,4 @@
-const {
+/* const {
   Client,
   Securities,
   BranchOficce,
@@ -8,6 +8,7 @@ const {
 
 class AdminServicesDelite {
   static async serviceRemoveSchedule(req, next) {
+    //xxxxxxx
     try {
       const workDay = await WorkDay.findOne({
         where: { date: req.params.date },
@@ -55,6 +56,7 @@ class AdminServicesDelite {
   }
 
   static async serviceRemoveEvent(req, next) {
+    //xxxxxxxxxxxxxxx
     try {
       // const event = await Events.findOne({
       //   where: {
@@ -99,3 +101,4 @@ class AdminServicesDelite {
 }
 
 module.exports = AdminServicesDelite;
+ */

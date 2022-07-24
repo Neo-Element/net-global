@@ -1,4 +1,4 @@
-const {
+/* const {
   Client,
   Securities,
   BranchOficce,
@@ -12,35 +12,37 @@ const createWorkDay = require("../../lib/createWorkDaySecurity");
 const {
   validateCreateWorkDay,
   /*  validationZone, */
-} = require("../../lib/validationsr");
+/* } = require("../../lib/validationsr");
 
 class AdminServicesPost {
+  //xxxxxxxx
   static async serviceAddSecurityOffice(req, next) {
     try {
       const { id } = req.body;
 
       const office = await BranchOficce.findOne({
-        where: { id: id /*  status: true */ },
+        where: { id: id   status: true  },
       });
 
       const security = await Securities.findOne({
         where: {
           CUIL: req.body.CUIL,
-          /* status: true */
+           status: true 
         },
       });
 
       /*  const isEnable= await validationZone(security.id,office.id)
-      if(isEnable){ */
+      if(isEnable){ 
       office.addSecurity(security);
       return office;
-      /*   } */
+      /*   } 
     } catch (err) {
       next(err);
     }
   }
 
   static async serviceAddOffice(req, next) {
+    //xxxxxxxxxxxxxxxxxxxxxxxxx
     try {
       const provincie = req.body.provincie;
 
@@ -74,6 +76,7 @@ class AdminServicesPost {
   }
 
   static async serviceAsingSchedule(req, next) {
+    //xxxxxxxxxxxxxxxxxxxx
     try {
       const security = await Securities.findOne({
         where: {
@@ -95,6 +98,7 @@ class AdminServicesPost {
 
   //------------------------------------------ usar este service para calendario (vision  segun oficina)-------------------------------//
   static async serviceAddSchedule(req, next) {
+    //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     try {
       /* ESTO ES REQ BODY {
         [0]   CUIL: '223344777642',
@@ -110,7 +114,7 @@ class AdminServicesPost {
       start: event.start,
       end: event.end,
       branchName: event.branchName,
-      securityName: event.completeName, */
+      securityName: event.completeName, 
       const {
         wishEntryHour,
         wishClosingHour,
@@ -152,6 +156,7 @@ class AdminServicesPost {
   }
   //-------------------------------------------------------------------------------------------------------------------------------------//
   static async serviceAddScheduleSecurity(req, next) {
+    //xxxxxxxxxxxxxxxxxxxxxxxxxxxx
     try {
       const haveDays = await Securities.findOne({
         where: { name: req.body.name },
@@ -189,6 +194,7 @@ class AdminServicesPost {
   }
 
   static async serviceAddSecurity(req, next) {
+    //xxxxxxxxxxxxxxxxxxxx
     console.log("req body => ", req.body);
     try {
       console.log("ACÁ", req.body);
@@ -212,6 +218,7 @@ class AdminServicesPost {
   }
 
   static async serviceAddSecurityProvincie(req, next) {
+    //xxxxxxxxxxxxxxxxxxx
     try {
       const { provincie } = req.body;
       const provincies = await Provincies.findOne({
@@ -231,6 +238,7 @@ class AdminServicesPost {
   }
 
   static async serviceDisabledAdmin(req, next) {
+    //xxxxxxxxxxxxxxxxx
     try {
       const admin = await Admin.findOne({
         where: { id: req.params.id },
@@ -245,6 +253,7 @@ class AdminServicesPost {
   }
 
   static async serviceInhabiteOffice(req, next) {
+    //xxxxxxxxxxxxx
     try {
       const branchOficce = await BranchOficce.findOne({
         where: { id: req.params.id },
@@ -259,6 +268,7 @@ class AdminServicesPost {
   }
 
   static async serviceDisabledSecurity(req, next) {
+    //xxxxxxxxxxxxxxxxxxxxxxxx
     try {
       const security = await Securities.findOne({
         where: { id: req.params.id },
@@ -273,6 +283,7 @@ class AdminServicesPost {
   }
 
   static async serviceDisabledClient(req, next) {
+    ///xxxxxxxxxxxxxxxxxxxxxxxx
     try {
       console.log("req.params => ", req.params);
       console.log("req.body => ", req.body);
@@ -298,6 +309,7 @@ class AdminServicesPost {
   }
 
   static async serviceRehabitedSecurities(req, next) {
+    //xxxxxxxxxxxxxxxxxxxxxxxxxxx
     try {
       const security = await Securities.findOne({
         where: { id: req.params.id },
@@ -319,12 +331,11 @@ class AdminServicesPost {
   }
 
   static async serviceRehabitedClinets(req, next) {
+    //xxxxxxxxxxxxxxxx
     try {
-      console.log("HOLA", req.params);
       const client = await Client.findOne({
         where: { id: req.params.id },
       });
-      console.log("CLIENT", client);
       const [row, disabled] = await Disabled.update(
         { clientId: null },
         {
@@ -333,8 +344,6 @@ class AdminServicesPost {
           },
         }
       );
-
-      console.log("DISABLED", disabled);
       client.status = true;
       client.save();
       return client;
@@ -345,6 +354,7 @@ class AdminServicesPost {
   }
 
   static async serviceRehabitedOffice(req, next) {
+    //xxxxxxxxxxxxxxxxxx
     try {
       const branchOffice = await BranchOficce.findOne({
         where: { id: req.params.id },
@@ -367,6 +377,7 @@ class AdminServicesPost {
   }
 
   static async serviceRehabitedAdmins(req, next) {
+    //xxxxxxxxxxxxxxxxxxxx
     try {
       const admin = await Admin.findOne({
         where: { id: req.params.id },
@@ -390,6 +401,7 @@ class AdminServicesPost {
   }
 
   static async serviceAddEvent(req, next) {
+    //xxxxxxxxxxxxxxxx
     try {
       const event = await Events.create(req.body);
       console.log("ESTO ES EVENT", event.dataValues);
@@ -407,4 +419,5 @@ class AdminServicesPost {
     }
   }
 }
-module.exports = AdminServicesPost;
+module.exports = AdminServicesPost;  */
+ 
