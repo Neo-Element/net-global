@@ -12,26 +12,27 @@ const Clients = () => {
   const dispatch = useDispatch();
   const searchClient = useInput();
   const clients = useSelector((state) => state.clients);
-  const client = useSelector((state) => state.client);
 
   useEffect(() => {
     dispatch(getAllClients());
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("searchClient => ", searchClient.value);
-    dispatch(getClient(searchClient.value));
-    navigate(`/clients/${client.id}`);
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault();
+      const client = await dispatch(getClient(searchClient.value));
+      navigate(`/clients/${client.payload.id}`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  
   const handleClient = (id) => {
     navigate(`/clients/${id}`);
   };
 
-  const handleClick = (url) => {
-    navigate(url);
+  const goToAddClient = () => {
+    navigate("/client");
   };
 
   return (
@@ -49,7 +50,7 @@ const Clients = () => {
         </h1>
 
         <Button
-          onClick={() => handleClick("/client")}
+          onClick={goToAddClient}
           variant="secondary"
           style={{
             position: "relative",
@@ -102,8 +103,7 @@ const Clients = () => {
               <td>{client.bussinessName}</td>
               <td>{client.CUIT}</td>
               <td>{client.legalAddress}</td>
-              {client.status ?  <td>Habilitado</td> :  <td>Deshabilitado</td>}
-             
+              {client.status ? <td>Habilitado</td> : <td>Deshabilitado</td>}
             </tr>
           ))}
         </tbody>

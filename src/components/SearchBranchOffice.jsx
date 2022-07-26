@@ -32,6 +32,7 @@ const SearchBranchOffice = () => {
   const handleClick = (url) => {
     navigate(url);
   };
+  
   return (
     <>
       <div>
