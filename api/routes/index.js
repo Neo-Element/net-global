@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const adminRouter = require("./adminRoutes");
+const adminRouter = require("./adminRoutes/index");
 const authRoute = require("./auth");
 const securityRouter = require("./securityRoutes");
 

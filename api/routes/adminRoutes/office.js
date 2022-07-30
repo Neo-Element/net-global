@@ -5,6 +5,7 @@ adminRouter.get("/", OfficeController.getAllOffice);
 adminRouter.get("/:id", OfficeController.getOneOffice);
 adminRouter.get("/byclient/:clientId",OfficeController.getAllOfficeByClient);
 adminRouter.get("/byClientName/:clientName",OfficeController.getAllOfficiesByClientName);
+adminRouter.get("/without/office", OfficeController.getBranchOfficeWithoutSecurityDay )
 adminRouter.get("/:name", OfficeController.getOneOfficeName);
 adminRouter.get("/disabled", OfficeController.getOfficiesDisabled);
 adminRouter.get("/noOne/security", OfficeController.getBranchOfficeWithoutSecurities)

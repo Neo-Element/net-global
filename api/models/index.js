@@ -9,13 +9,13 @@ const AbsenceRequest = require("./AbsenceRequest");
 const Events = require("./Events");
 
 Disabled.belongsTo(Securities);
-Securities.hasOne(Disabled)
+Securities.hasMany(Disabled)
 Disabled.belongsTo(Client);
-Client.hasOne(Disabled)
+Client.hasMany(Disabled)
 Disabled.belongsTo(BranchOficce);
-BranchOficce.hasOne(Disabled)
+BranchOficce.hasMany(Disabled)
 Disabled.belongsTo(Admin);
-Admin.hasOne(Disabled)
+Admin.hasMany(Disabled)
 
 AbsenceRequest.belongsTo(Securities);
 Securities.hasMany(AbsenceRequest)

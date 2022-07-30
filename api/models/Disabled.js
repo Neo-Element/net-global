@@ -14,6 +14,16 @@ Disabled.init(
     reason: {
       type: S.TEXT,
     },
+    isEnabledNow:{
+      type:S.BOOLEAN,
+      defaultValue: false
+    },
+    reasonToEnabled:{
+      type: S.TEXT,
+      defaultValue:"no fue rehabilitado aun",
+      allowNull:false,
+
+    }
   },
   {
     sequelize: db,

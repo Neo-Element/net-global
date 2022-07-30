@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const {
     Client,
     Securities,
@@ -7,7 +8,9 @@ const {
     Admin,
     Events,
     Disabled,
+    AbsenceRequest
   } = require("../../models");
+  
 
 class AdminServices {
     static async serviceGetDisabled(req, next) {
@@ -146,6 +149,15 @@ class AdminServices {
       }
       console.log(response);
       return response;
+    } catch (err) {
+      next(err);
+    }
+  }
+  static async patchPassword(req, next) {
+    try {
+      await Admin.update(req.body, {
+        where: { id: req.params.id },
+      });
     } catch (err) {
       next(err);
     }

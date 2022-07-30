@@ -1,4 +1,4 @@
-const { Admin } = require("../../models");
+/* const { Admin } = require("../../models");
 
 class AdminServicesPatch {
   static async patchPassword(req, next) {
@@ -12,4 +12,4 @@ class AdminServicesPatch {
   }
 }
 
-module.exports = AdminServicesPatch;
+module.exports = AdminServicesPatch; */
