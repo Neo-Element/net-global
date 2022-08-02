@@ -8,7 +8,7 @@ adminRouter.get("/name/:name", ClientController.getOneClientName) //ready
 adminRouter.post("/add", ClientController.addClient);//ready
 adminRouter.post("/disabled/:id", ClientController.disabledClient);//ready
 adminRouter.put("/rehabited/:id", ClientController.rehabitedClients);//ready
-adminRouter.put("/edit/:id", ClientController.editClient);
+adminRouter.put("/edit/:id", ClientController.editClient);// ready
 
 
 module.exports = adminRouter;

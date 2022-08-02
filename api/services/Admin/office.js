@@ -1,93 +1,91 @@
+const { Op } = require("sequelize");
 const {
-    Client,
-    Securities,
-    BranchOficce,
-    Provincies,
-    WorkDay,
-    Admin,
-    Events,
-    Disabled,
-  } = require("../../models");
+  Client,
+  Securities,
+  BranchOficce,
+  Provincies,
+  WorkDay,
+  Admin,
+  Events,
+  Disabled,
+} = require("../../models");
+
 class OfficeServices {
-    static async serviceGetAllOffice(next) {
-        try {
-          const allOffice = await BranchOficce.findAll();
-          return allOffice;
-        } catch (err) {
-          next(err);
-        }
-      }
+  static async serviceGetAllOffice(next) {
+    try {
+      const allOffice = await BranchOficce.findAll();
+      return allOffice;
+    } catch (err) {
+      next(err);
+    }
+  }
 
-      static async serviceGetAllOfficeByClient(req, next) {
-        try {
-          const allOfficeByClient = await BranchOficce.findAll({
-            where: {
-              clientId: req.params.clientId,
-              status: true,
-            },
-          });
-          return allOfficeByClient;
-        } catch (err) {
-          console.log("error => ", err);
-          next(err);
-        }
-      }
+  static async serviceGetAllOfficeByClient(req, next) {
+    try {
+      const allOfficeByClient = await BranchOficce.findAll({
+        where: {
+          clientId: req.params.clientId,
+          status: true,
+        },
+      });
+      return allOfficeByClient;
+    } catch (err) {
+      console.log("error => ", err);
+      next(err);
+    }
+  }
 
-      static async serviceGetAllOfficiesByClientName(req, next) {
-        //xxxxxxx
-        try {
-          console.log(req.params);
-          const clients = await Client.findOne({
-            where: {
-              bussinessName: req.params.clientName,
-            },
-          });
-          const offices = await BranchOficce.findAll({
-            where: { clientId: clients.id },
-          });
-          return offices;
-        } catch (err) {
-          console.log("error => ", err);
-          next(err);
-        }
-      }
+  static async serviceGetAllOfficiesByClientName(req, next) {
+    try {
+      console.log(req.params);
+      const clients = await Client.findOne({
+        where: {
+          bussinessName: req.params.clientName,
+        }, include:{model: BranchOficce}
+      });
+    
+      return clients.branchOficces;
+    } catch (err) {
+      console.log("error => ", err);
+      next(err);
+    }
+  }
 
-      static async serviceGetOneOffice(req, next) {
-        //xxxxxxxxx
-        try {
-          const oneOffice = await BranchOficce.findByPk(req.params.id);
-          const officeName = await Client.findByPk(oneOffice.clientId);
-          oneOffice.dataValues.clientName = officeName.bussinessName;
-          return oneOffice;
-        } catch (err) {
-          console.log(err);
-          next(err);
-        }
-      }
+  static async serviceGetOneOffice(req, next) {
+    try {
+      const office = await BranchOficce.findOne({
+        where: { id: req.params.id },
+        include: { model: Client },
+      });
+      return office;
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  }
 
-      static async serviceGetOneOfficeName(req, next) {
-        try {
-          const oneOffice = await BranchOficce.findOne({
-            where: { name: req.params.name },
-          });
-          return oneOffice;
-        } catch (err) {
-          next(err);
-        }
-      }
+  static async serviceGetOneOfficeName(req, next) {
+    try {
+      const oneOffice = await BranchOficce.findOne({
+        where: { name: req.params.name },
+      });
+      return oneOffice;
+    } catch (err) {
+      next(err);
+    }
+  }
 
-      static async servicesGetOfficiesDisabled(req, next) {
-        try {
-          const officiesDisabled = await Disabled.findAll({
-            where: { type: "branchOffice" },
-          });
-          return officiesDisabled;
-        } catch (err) {
-          next(err);
-        }
-      }
+  static async servicesGetOfficiesDisabled(req, next) {
+    try {
+      const officiesDisabled = await Disabled.findAll({
+        where: { type: "branchOffice" },
+      });
+      return officiesDisabled;
+    } catch (err) {
+      next(err);
+    }
+  }
 
-     
   static async serviceGetBranchOfficewitoutSecurityDay(req, next) {
     //xxxxxx
     try {
@@ -98,7 +96,7 @@ class OfficeServices {
       let nextDate = new Date(year, month, day);
       const workDayBranch = await BranchOficce.findAll({
         include: {
-          association: BranchOficce.calendar,
+          model: WorkDay,
           where: {
             date: {
               [Op.between]: [date, nextDate],
@@ -191,7 +189,7 @@ class OfficeServices {
       next(err);
     }
   }
-   
+
   static async serviceAddOffice(req, next) {
     //xxxxxxxxxxxxxxxxxxxxxxxxx
     try {
@@ -268,7 +266,6 @@ class OfficeServices {
       next(err);
     }
   }
-
 }
 
-module.exports= OfficeServices
+module.exports = OfficeServices;

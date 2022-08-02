@@ -1,7 +1,9 @@
+const { Client } = require("pg");
 const S = require("sequelize");
 const db = require("../db");
 
-class BranchOficce extends S.Model {}
+class BranchOficce extends S.Model {
+}
 
 BranchOficce.init(
   {
