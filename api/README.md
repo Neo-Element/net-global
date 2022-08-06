@@ -7,3 +7,8 @@ Logica de negocio:
 - tiene que pasar obligatoriamente una razon para rehabilitar esa instancia de la entidad con el nombre de reason, dado que de esta forma se genera un historial que podra consultar mas tarde
 -cuando se rehabilita un cliente se vuelven a habilitar todas sus sucursales por default
 
+-/api/admin/office/without/security/day :  devuelve la oficina (de cualquier cliente) que tenga asignado de aca a una semana dias de trabajo pero no llega a estar full cubierta 24 hrs de aca a 7 dias 
+
+-/api/admin/office/without/workday : devuelve especificamente todas las oficinas sin ningun dia asignado en el calendar
+
+para asignar un guardia a una oficina estos tiene que estar en la misma provincias y ambos estar habilitados

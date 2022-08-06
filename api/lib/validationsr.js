@@ -1,4 +1,4 @@
-const { BranchOficce, Securities } = require("../models");
+const { BranchOficce, Securities, Provincies } = require("../models");
 
 function validateCreateWorkDay(inHour, exitHour, newInHour, newExitHour) {
   let listHoures = [];
@@ -29,13 +29,13 @@ function enableOrDisable(instance) {
   return instance.save();
 }
 
-const validationZone = async (idBranch, idSecurity) => {
+const validationZone = async (idSecurity, idBranch) => {
   const securities = await Securities.findOne({
-    where: { id: idBranch },
-    include: { association: Securities.provincie },
+    where: { id: idSecurity },
+    include: { model: Provincies },
   });
   const officie = await BranchOficce.findOne({
-    where: { id: idSecurity },
+    where: { id: idBranch },
   });
   const comparation = securities.provincies.filter(
     (provincie) => provincie.id == officie.provincyId

@@ -1,6 +1,15 @@
 const {OfficeServices} = require('../../services/Admin')
 
 class OfficeController {
+
+  static async addSecurityOffice(req, res, next) {
+    const security = await OfficeServices.serviceAddSecurityOffice(
+      req,
+      next
+    );
+    return security ? res.status(201).json(security) : res.sendStatus(404);
+  }
+
     static async removeSecurityByOffice(req, res, next) {
         await OfficeServices.serviceRemoveSecurityByOffice(req, next);
         return res.sendStatus(202);

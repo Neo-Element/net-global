@@ -49,7 +49,7 @@ class ClientServices {
   static async servicesGetClientsDisabled(req, next) {
     try {
       const clientsDisabled = await Disabled.findAll({
-        where: { type: "clients" },
+        where: {  [Op.and]:[{type: "clients"}, {isEnabledNow:false}]},
          include:{
           model:Client
         } 

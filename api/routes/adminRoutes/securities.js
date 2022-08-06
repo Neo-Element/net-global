@@ -14,7 +14,6 @@ adminRouter.get("/all/request", SecurityController.getAllRequest);
 adminRouter.get("/oneResquest/:id", SecurityController.getOneRequest);
 adminRouter.post("/add", SecurityController.addSecurity);
 adminRouter.post("/add/provincie",SecurityController.addSecurityProvincie);
-adminRouter.post("/add/office", SecurityController.addSecurityOffice);
 adminRouter.post("/disabled/:id",SecurityController.disabledSecurity);
 adminRouter.put("/rehabited/:id",SecurityController.rehabitedSecurities);
 adminRouter.put("/edit/:id", SecurityController.editSecurity);

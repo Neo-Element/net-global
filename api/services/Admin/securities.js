@@ -9,8 +9,13 @@ const {
     Disabled,
   } = require("../../models");
   const { Op } = require("sequelize");
+  const {validateCreateWorkDay,   } = require("../../lib/validationsr");
+  
 class SecuritiesServices {
+
+
      // USAR ESTA, PASARLE NAME DE OFFICE, ID GUARDIA
+
   static async serviceRemoveSecurityByOffice(req, next) {
     try {
       const office = await BranchOficce.findOne({

@@ -103,13 +103,7 @@ class SecurityController {
         return office ? res.status(200).json(office) : res.sendStatus(500);
       }
     
-      static async addSecurityOffice(req, res, next) {
-        const security = await SecuritiesServices.serviceAddSecurityOffice(
-          req,
-          next
-        );
-        return security ? res.status(201).json(security) : res.sendStatus(404);
-      }
+      
     
       static async addSecurityProvincie(req, res, next) {
         await SecuritiesServices.serviceAddSecurityProvincie(req, next);
