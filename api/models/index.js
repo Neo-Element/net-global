@@ -29,12 +29,13 @@ Provincies.hasMany(BranchOficce)
 Events.belongsTo(WorkDay);
 WorkDay.hasMany(Events)
 
-Securities.belongsToMany(Provincies, {
-  through: "provincies_security ",
-});
 
 Provincies.belongsToMany(Securities, {
   through: "provincies_security ",
+});
+
+Securities.belongsToMany(Provincies, {
+through: "provincies_security ",
 });
 
 

@@ -28,8 +28,8 @@ class SecurityController {
           : res.sendStatus(404);
       }
 
-      static async getOneSecurityById(req, res, next) {
-        const oneSecurityById = await SecuritiesServices.serviceGetOneSecurityById(
+      static async SearchOneSecurity(req, res, next) {
+        const oneSecurityById = await SecuritiesServices.serviceSearchOneSecurity(
           req,
           next
         );
@@ -38,13 +38,7 @@ class SecurityController {
           : res.sendStatus(404);
       }
     
-      static async getOneSecurityByCuil(req, res, next) {
-        const oneSecurityByCuil =
-          await SecuritiesServices.serviceGetOneSecurityByCuil(req, next);
-        return oneSecurityByCuil
-          ? res.status(200).json(oneSecurityByCuil)
-          : res.sendStatus(404);
-      }
+     
 
       static async getAllSecuritiesByOffice(req, res, next) {
         const securityList = await SecuritiesServices.serviceGetAllSecuritiesByOffice(

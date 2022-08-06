@@ -12,3 +12,5 @@ Logica de negocio:
 -/api/admin/office/without/workday : devuelve especificamente todas las oficinas sin ningun dia asignado en el calendar
 
 para asignar un guardia a una oficina estos tiene que estar en la misma provincias y ambos estar habilitados
+
+-/api/amin/security/province/:name : busca los guardias de la provincia que le pases el nombre por parametro

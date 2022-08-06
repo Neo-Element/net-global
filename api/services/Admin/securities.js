@@ -10,6 +10,7 @@ const {
   } = require("../../models");
   const { Op } = require("sequelize");
   const {validateCreateWorkDay,   } = require("../../lib/validationsr");
+  const { distance } = require("../../lib/findDistance.js");
   
 class SecuritiesServices {
 
@@ -36,13 +37,12 @@ class SecuritiesServices {
   }
 
   static async serviceGetOneSecurities(req, next) {
-    const [name, lastName] = req.params.name.split(" ");
-    try {
+   
+    try { 
+      const [name, lastName]= req.params.name.split(" ")
       const oneSecurity = await Securities.findAll({
         where: {
-          [Op.or]: [{ name: name }, { name: name, lastName: lastName }],
-        },
-      });
+          [Op.or]: [{ name: name}, {lastName: lastName|| " " }],}})
       return oneSecurity;
     } catch (err) {
       next(err);
@@ -58,11 +58,12 @@ class SecuritiesServices {
     }
   }
 
-  static async serviceGetOneSecurityById(req, next) {
+  static async serviceSearchOneSecurity(req, next) {
     try {
       const oneSecurity = await Securities.findAll({
         where: {
-          id: req.params.id,
+          [Op.or]:[{id: req.params.search},{ CUIL: req.params.search}]
+          
         },
       });
       return oneSecurity;
@@ -71,26 +72,12 @@ class SecuritiesServices {
     }
   }
 
-  static async serviceGetOneSecurityByCuil(req, next) {
-    try {
-      const oneSecurityCuil = await Securities.findAll({
-        where: {
-          CUIL: req.params.cuil,
-        },
-      });
-      return oneSecurityCuil;
-    } catch (err) {
-      next(err);
-    }
-  }
-
   static async serviceGetAllSecuritiesByOffice(req, next) {
-    //xxxxxxxxxxxx
     try {
       const securityList = await BranchOficce.findAll({
         where: { name: req.params.name },
         include: {
-          association: BranchOficce.security,
+          model: Securities,
           where: {
             status: true,
           },
@@ -104,24 +91,15 @@ class SecuritiesServices {
   }
 
   static async serviceGetAllSecuritiesByProvincie(req, next) {
-    ///xxxxxxxxxx
     try {
-      const provincieBranch = await BranchOficce.findAll({
-        where: {
-          name: req.params.name,
-        },
-      });
+      const securitieProvincies = await Securities.findAll({
+          include:{
+            model:Provincies,
+            where:{name: req.params.name}
+          }
+        });
 
-      const provincieId = provincieBranch[0].provincyId;
-      const securities = await Securities.findAll({
-        include: {
-          association: Securities.provincie,
-          where: {
-            id: provincieId,
-          },
-        },
-      });
-      return securities;
+      return securitieProvincies;
     } catch (err) {
       console.log(err);
       next(err);
@@ -129,7 +107,7 @@ class SecuritiesServices {
   }
 
   static async serviceGetSecuritiesByDistance(req, next) {
-    //xxxxxx
+
     const { y, x } = req.body;
     const { id } = req.params;
 
@@ -139,7 +117,7 @@ class SecuritiesServices {
     try {
       let securities = await Securities.findAll({
         include: {
-          association: Securities.provincie,
+          model: Provincies,
           where: {
             id: id,
           },

@@ -10,7 +10,7 @@ adminRouter.get("/clientname/:clientName",OfficeController.getAllOfficiesByClien
 adminRouter.get("/without/security/day", OfficeController.getBranchOfficeWithoutSecurityDay)//ready
 adminRouter.get("/noOne/security", OfficeController.getBranchOfficeWithoutSecurities)// ready
 adminRouter.get("/without/workday", OfficeController.getBranchOfficeWithoutWorkDay)//ready
-adminRouter.post("/add/office", OfficeController.addSecurityOffice);//ready
+adminRouter.post("/add/security", OfficeController.addSecurityOffice);//ready
 adminRouter.post("/add", OfficeController.addOffice);//ready
 adminRouter.post("/disabled/:id", OfficeController.disabledOffice)//ready
 adminRouter.delete("/remove/security/:name/:id",OfficeController.removeSecurityByOffice);//ready

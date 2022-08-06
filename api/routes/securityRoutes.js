@@ -21,7 +21,7 @@ securityRouter.put(
   "/myEffictiveWorkDay/close/:id/:date/:geo",
   SecurityController.writeMyWorkDayClose
 );
-
+// CAMBIAR RUTA PARA QUE SE PUEDAN SUBIR ARCHIVOS 
 securityRouter.post("/photoWorkDay", SecurityController.saveImageSecurity);
 
 securityRouter.post("/absence/:id", SecurityController.absenceRequest);
