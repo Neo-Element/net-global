@@ -7,7 +7,7 @@ adminRouter.get("/id/:id", SecurityController.SearchOneSecurityId);// ready
 adminRouter.get("/cuil/:cuil", SecurityController.SearchOneSecurityCuil)//ready
 adminRouter.get("/name/:name", SecurityController.getOneSecurity)//ready
 adminRouter.get("/office/:name",SecurityController.getAllSecuritiesByOffice);//ready
-adminRouter.get("/securitiesByDistance/:id",SecurityController.getSecuritiesByDistance);
+adminRouter.get("/securitiesByDistance/:id",SecurityController.getSecuritiesByDistance);//ready
 adminRouter.get("/provincie/:name",SecurityController.getSecuritiesByProvincie);//ready
 adminRouter.get("/images/day/:id", SecurityController.getImageSecurityByDay);//no testeable yet
 adminRouter.get("/all/request", SecurityController.getAllRequest);// teateable with routes of PWA
