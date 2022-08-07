@@ -58,13 +58,26 @@ class SecuritiesServices {
     }
   }
 
-  static async serviceSearchOneSecurity(req, next) {
+  static async serviceSearchOneSecurityId(req, next) {
     try {
       const oneSecurity = await Securities.findAll({
         where: {
-          [Op.or]:[{id: req.params.search},{ CUIL: req.params.search}]
-          
+          id: req.params.id
         },
+      });
+      return oneSecurity;
+    } catch (err) {
+      next(err);
+    }
+  }
+
+
+  static async serviceSearchOneSecurityCuil(req, next) {
+    try {
+      const oneSecurity = await Securities.findAll({
+        where: {
+          CUIL: req.params.cuil 
+        }
       });
       return oneSecurity;
     } catch (err) {
@@ -166,7 +179,7 @@ class SecuritiesServices {
   static async servicesGetSecuritiesDisabled(req, next) {
     try {
       const securitiesDisabled = await Disabled.findAll({
-        where: { type: "securities" },
+        where: { [Op.and]:[{type: "securities"},{isEnabledNow:false}] },
       });
       return securitiesDisabled;
     } catch (err) {
@@ -175,8 +188,6 @@ class SecuritiesServices {
   }
 
   static async serviceAddSecurity(req, next) {
-    //xxxxxxxxxxxxxxxxxxxx
-    
     try {
       const provincies = await Provincies.findOne({
         where: {
@@ -193,7 +204,6 @@ class SecuritiesServices {
   }
 
   static async serviceAddSecurityProvincie(req, next) {
-    //xxxxxxxxxxxxxxxxxxx
     try {
       const { provincie } = req.body;
       const provincies = await Provincies.findOne({
@@ -228,13 +238,12 @@ class SecuritiesServices {
   }
 
   static async serviceRehabitedSecurities(req, next) {
-    //xxxxxxxxxxxxxxxxxxxxxxxxxxx
     try {
       const security = await Securities.findOne({
         where: { id: req.params.id },
       });
       const [row, disabled] = await Disabled.update(
-        { securityId: null },
+        { isEnabledNow:true, reasonToEnabled: req.body.reason },
         {
           where: {
             securityId: security.id,
@@ -264,19 +273,7 @@ class SecuritiesServices {
     }
   }
 
-  static async serviceEditSecurityStatus(req, next) {
-    const { status } = req.body;
-    const { id } = req.params;
-    try {
-      const [rows, security] = await Securities.update(
-        { status: status },
-        { where: { id: id } }
-      );
-      return security;
-    } catch (error) {
-      next(error);
-    }
-  }
+
 
 }
 
