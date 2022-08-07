@@ -15,7 +15,7 @@ const {
 class AdminServices {
     static async serviceGetDisabled(req, next) {
         try {
-          const allInhabites = await Disabled.findAll();
+          const allInhabites = await Disabled.findAll({where:{isEnabledNow:false}});
           return allInhabites;
         } catch (err) {
           next(err);
@@ -25,7 +25,7 @@ class AdminServices {
       static async servicesGetAdminsDisabled(req, next) {
         try {
           const adminsDisabled = await Disabled.findAll({
-            where: { type: "admins" },
+            where: {[Op.and]:[{ type: "admins"},{isEnabledNow:false}] },
           });
           return adminsDisabled;
         } catch (err) {
@@ -70,15 +70,12 @@ class AdminServices {
   }
 
   static async serviceDisabledAdmin(req, next) {
-    //xxxxxxxxxxxxxxxxx
     try {
-      const admin = await Admin.findOne({
-        where: { id: req.params.id },
-      });
+      const admin = await Admin.findByPk(req.params.id);
       const disabled = await Disabled.create(req.body);
       disabled.setAdmin(admin);
-      Admin.status = false;
-      Admin.save();
+      admin.status = false;
+      admin.save();
     } catch (err) {
       next(err);
     }
