@@ -28,13 +28,22 @@ class SecurityController {
           : res.sendStatus(404);
       }
 
-      static async SearchOneSecurity(req, res, next) {
-        const oneSecurityById = await SecuritiesServices.serviceSearchOneSecurity(
+      static async SearchOneSecurityId(req, res, next) {
+        const oneSecurityById = await SecuritiesServices.serviceSearchOneSecurityId(
           req,
           next
         );
         return oneSecurityById
           ? res.status(200).json(oneSecurityById)
+          : res.sendStatus(404);
+      }
+      static async SearchOneSecurityCuil(req, res, next) {
+        const oneSecurityByCuil = await SecuritiesServices.serviceSearchOneSecurityCuil(
+          req,
+          next
+        );
+        return oneSecurityByCuil
+          ? res.status(200).json(oneSecurityByCuil)
           : res.sendStatus(404);
       }
     
@@ -85,12 +94,7 @@ class SecurityController {
         return oneRequest ? res.status(200).send(oneRequest) : res.sendStatus(500);
       }
 
-      static async patchPassword(req, res, next) {
-        const patchPassword = await SecuritiesServices.patchPassword(req, next);
-        return patchPassword
-          ? res.status(204).json(patchPassword)
-          : res.sendStatus(404);
-      }
+
 
       static async addSecurity(req, res, next) {
         const office = await SecuritiesServices.serviceAddSecurity(req, next);
@@ -125,13 +129,7 @@ class SecurityController {
         return res.status(201).json([updatedSecurity]);
       }
 
-      static async editSecurityStatus(req, res, next) {
-        const updatedSecurity = await SecuritiesServices.serviceEditSecurityStatus(
-          req,
-          next
-        );
-        return res.status(201).send(updatedSecurity);
-      }
+      
 }
 
 module.exports= SecurityController
