@@ -14,3 +14,5 @@ Logica de negocio:
 para asignar un guardia a una oficina estos tiene que estar en la misma provincias y ambos estar habilitados
 
 -/api/amin/security/province/:name : busca los guardias de la provincia que le pases el nombre por parametro
+
+para que un admin pueda crear otro admin, debe hacerlo desde la ruta api/auth/register
