@@ -59,7 +59,7 @@ Securities.init(
   }
 );
 
-Securities.sync({ alter: false });
+Securities.sync({ force: false });
 
 Securities.beforeCreate(async (securities) => {
   salt = await genSalt(16);
