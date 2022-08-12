@@ -16,3 +16,6 @@ para asignar un guardia a una oficina estos tiene que estar en la misma provinci
 -/api/amin/security/province/:name : busca los guardias de la provincia que le pases el nombre por parametro
 
 para que un admin pueda crear otro admin, debe hacerlo desde la ruta api/auth/register
+
+Calendario:
+-cuando se agrega una jornada nueva requiere que se le pasen los siguientes datos = {wishEntryHour: horario de entrada,wishClosingHour: horario de salida,CUIL: CUIL del guardia de seguridad que se le asigna ,branchName:nombre de la oficina donde estamos poniendole un evento ,date: dia del evento} cuando se crea una jornada para la oficina tambien se crea el horario en el calendar del guardia de seguridad.
