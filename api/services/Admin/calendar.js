@@ -9,6 +9,8 @@ const {
     Disabled,
   } = require("../../models");
 
+
+  const {validateCreateWorkDay,   } = require("../../lib/validationsr");
 class CalendarServices {
     static async serviceRemoveSchedule(req, next) {
         //xxxxxxx
@@ -185,59 +187,44 @@ class CalendarServices {
         }
       }
 
-        //------------------------------------------ usar este service para calendario (vision  segun oficina)-------------------------------//
+        
   static async serviceAddSchedule(req, next) {
-    //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     try {
-      /* ESTO ES REQ BODY {
-        [0]   CUIL: '223344777642',
-        [0]   wishEntryHour: '20:25',
-        [0]   wishClosingHour: '20:25',
-        [0]   completeName: 'mario reartes',
-        [0]   branchName: 'adidas1',
-        [0]   date: '2022-04-13',
-        [0]   start: '2022-04-13T20:25:00',
-        [0]   end: '2022-04-13T20:25:00',
-        [0]   securityId: 1
-        [0] } */ /* date: event.date,
-      start: event.start,
-      end: event.end,
-      branchName: event.branchName,
-      securityName: event.completeName, */
-      const {
-        wishEntryHour,
-        wishClosingHour,
-        completeName,
-        branchName,
-        date,
-        start,
-        end,
-      } = req.body;
-      console.log("ESTO ES REQ BODY", req.body);
+      const {wishEntryHour,wishClosingHour,CUIL,branchName,date} = req.body;
       const branchOficces = await BranchOficce.findOne({
-        where: { name: req.body.branchName },
+        where: { name: branchName },
+        include:{
+          model:Securities,
+          where:{CUIL: CUIL}, include:{model:WorkDay, where:{date:date}}
+        }
       });
-      const security = await Securities.findOne({
-        where: {
-          CUIL: req.body.CUIL,
-        },
-      });
-      const workDay = await WorkDay.create({
+      const [security]=branchOficces.securities
+      
+      if(!security.workDays[1]){
+    const securityBussy = await validateCreateWorkDay(security.workDays[0].wishEntryHour, security.workDays[0].wishClosingHour,  wishEntryHour, wishClosingHour)
+      if(securityBussy) return "this security is bussy in this schedule"
+   const workDay = await WorkDay.create({
         date: date,
         wishClosingHour: wishClosingHour,
         wishEntryHour: wishEntryHour,
       });
+      
       const event = await Events.create({
         date: date,
-        start: start,
-        end: end,
-        branchName: branchName,
-        securityName: completeName,
+        start: workDay.wishEntryHour,
+        end: workDay.wishClosingHour,
+        branchName: branchOficces.name,
+        securityName: security.name,
       });
+      console.log(security);
       event.setWorkDay(workDay);
       branchOficces.addWorkDays(workDay);
-      security.addWorkDays(workDay);
-      return branchOficces;
+      security.addWorkDays(workDay); 
+      return branchOficces
+    }else{
+      return "this security has two shedules in this date, please choose another day"
+    }
+
     } catch (err) {
       console.log(err);
       next(err);
