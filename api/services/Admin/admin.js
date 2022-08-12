@@ -82,21 +82,19 @@ class AdminServices {
   }
 
   static async serviceRehabitedAdmins(req, next) {
-    //xxxxxxxxxxxxxxxxxxxx
     try {
       const admin = await Admin.findOne({
         where: { id: req.params.id },
       });
 
       const [row, disabled] = await Disabled.update(
-        { adminId: null },
+        {  isEnabledNow:true, reasonToEnabled: req.body.reason  },
         {
           where: {
             adminId: admin.id,
           },
         }
       );
-      console.log("Disabled", disabled);
       admin.status = true;
       admin.save();
       return admin;
