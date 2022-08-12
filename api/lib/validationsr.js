@@ -1,27 +1,46 @@
-const { BranchOficce, Securities, Provincies } = require("../models");
+const { Op } = require("sequelize");
+const { BranchOficce, Securities, Provincies, WorkDay } = require("../models");
 
-function validateCreateWorkDay(inHour, exitHour, newInHour, newExitHour) {
+const validateCreateWorkDay = async (
+  inHour,
+  exitHour,
+  newInHour,
+  newExitHour
+) => {
   let listHoures = [];
-  const entryHour = new Date(inHour).getHours();
-  const closingHour = new Date(exitHour).getHours();
-  console.log("ENTRY HOUR", entryHour, "CLOSINGHOUR", closingHour);
-  for (let i = entryHour; i < closingHour; i++) {
+  const entryHour = Number(inHour.split(":")[0]);
+  const closingHour = Number(exitHour.split(":")[0]);
+
+  for (let i = entryHour; i <= closingHour; i++) {
     listHoures.push(i);
   }
+  console.log("hours first", listHoures);
   let listNewHour = [];
-  const newEntryHour = new Date(newInHour).getHours();
-  const newClosingHour = new Date(newExitHour).getHours();
-  for (let i = newEntryHour; i < newClosingHour; i++) {
-    listNewHour.push(i);
+  let newEntryHour = Number(newInHour.split(":")[0]);
+  const newClosingHour = Number(newExitHour.split(":")[0]);
+
+  let contador = newEntryHour;
+  while (contador !== newClosingHour) {
+    if (contador === 23) listNewHour.push(contador);
+    let hour = transcriptorHour(contador, newClosingHour);
+    listNewHour.push(hour);
+    contador = hour;
   }
 
+  console.log("hours last", listNewHour);
   const validate = listHoures.map((hour) => {
     if (listNewHour.includes(hour)) return true;
     return false;
   });
-  if (validate.includes(true)) return false;
+  if (validate.includes(true)) return true;
 
-  return true;
+  return false;
+};
+
+function transcriptorHour(entry, closing) {
+  if (entry < closing) return entry + 1;
+  if (entry === 24) return 0;
+  if (entry !== 24) return (entry = entry + 1);
 }
 
 function enableOrDisable(instance) {

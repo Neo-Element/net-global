@@ -5,7 +5,7 @@ adminRouter.get("/office/:id/:date",CalendarController.getOfficeCalendar);
 adminRouter.get("/security/:id", CalendarController.getOfficeCalendarSecurity);
 adminRouter.get("/events", CalendarController.getAllEvents);
 adminRouter.get("/events/:name", CalendarController.getAllEventsOfBranch);
-adminRouter.post("/add/office", CalendarController.addSchedule);
+adminRouter.post("/add/office", CalendarController.addSchedule);//ready
 adminRouter.post("/add/security",CalendarController.addScheduleSecurity);// AGREGA CALENDAR A VIGILANTE
 adminRouter.post("/assign/security",CalendarController.asingScheduleToSecurity);
 adminRouter.post("/add/event", CalendarController.addEvent);
