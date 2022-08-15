@@ -11,6 +11,7 @@ const {
 
 
   const {validateCreateWorkDay,   } = require("../../lib/validationsr");
+const { Op } = require("sequelize");
 class CalendarServices {
     static async serviceRemoveSchedule(req, next) {
         //xxxxxxx
@@ -192,18 +193,25 @@ class CalendarServices {
     try {
       const {wishEntryHour,wishClosingHour,CUIL,branchName,date} = req.body;
       const branchOficces = await BranchOficce.findOne({
-        where: { name: branchName },
+        where: { [Op.and]:[{name: branchName}, {status: true}] },
         include:{
           model:Securities,
-          where:{CUIL: CUIL}, include:{model:WorkDay, where:{date:date}}
-        }
+          where:{CUIL: CUIL}}
       });
-      const [security]=branchOficces.securities
+
       
-      if(!security.workDays[1]){
-    const securityBussy = await validateCreateWorkDay(security.workDays[0].wishEntryHour, security.workDays[0].wishClosingHour,  wishEntryHour, wishClosingHour)
+      if(!branchOficces)return "this guard or this office are not available, check if both are active and if the guard is enabled in that office"
+      const securities= await Securities.findOne({
+        where:{CUIL: branchOficces.securities[0].CUIL},  include:{model:WorkDay, where:{date:date} }})
+        if(securities && !securities.workDays[1]){
+    const securityBussy = await validateCreateWorkDay(securities.workDays[0].wishEntryHour, securities.workDays[0].wishClosingHour,  wishEntryHour, wishClosingHour)
+    console.log(securityBussy)
       if(securityBussy) return "this security is bussy in this schedule"
-   const workDay = await WorkDay.create({
+        }
+    else if (securities && securities.workDays[1]) return "this security has two shedules in this date, please choose another day"
+        
+    else if (branchOficces.securities){
+    const workDay = await WorkDay.create({
         date: date,
         wishClosingHour: wishClosingHour,
         wishEntryHour: wishEntryHour,
@@ -214,18 +222,15 @@ class CalendarServices {
         start: workDay.wishEntryHour,
         end: workDay.wishClosingHour,
         branchName: branchOficces.name,
-        securityName: security.name,
+        securityName:branchOficces.securities[0].name,
       });
-      console.log(security);
+       const security = branchOficces.securities[0]
       event.setWorkDay(workDay);
-      branchOficces.addWorkDays(workDay);
+      workDay.addBranchOficce(branchOficces);
       security.addWorkDays(workDay); 
-      return branchOficces
-    }else{
-      return "this security has two shedules in this date, please choose another day"
-    }
-
-    } catch (err) {
+      return workDay
+    } 
+    }catch (err) {
       console.log(err);
       next(err);
     }
